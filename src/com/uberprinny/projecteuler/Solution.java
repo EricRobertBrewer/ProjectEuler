@@ -7,7 +7,7 @@ public class Solution {
 //		Problem2.printAnswer();
 //		Problem3.printAnswer();
 //		Problem4.printAnswer();
-		System.out.println(new Problem5().getAnswer());
+//		System.out.println(new Problem5().getAnswer());
+		System.out.println(new Problem7().getAnswer());
 	}
-
 }
