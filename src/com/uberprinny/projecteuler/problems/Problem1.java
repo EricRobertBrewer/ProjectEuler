@@ -1,4 +1,4 @@
-package com.uberprinny.projecteuler;
+package com.uberprinny.projecteuler.problems;
 
 public final class Problem1 {
 

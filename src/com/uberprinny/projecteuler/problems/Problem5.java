@@ -1,7 +1,10 @@
-package com.uberprinny.projecteuler;
+package com.uberprinny.projecteuler.problems;
 
 import java.util.HashMap;
 import java.util.List;
+
+import com.uberprinny.projecteuler.SolutionInterface;
+import com.uberprinny.projecteuler.Utility;
 
 /**
  * Smallest multiple

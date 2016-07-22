@@ -1,5 +1,7 @@
 package com.uberprinny.projecteuler;
 
+import com.uberprinny.projecteuler.problems.*;
+
 public class Solution {
 
 	public static void main(String[] args) {
