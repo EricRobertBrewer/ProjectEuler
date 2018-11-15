@@ -1,6 +1,6 @@
-package com.uberprinny.projecteuler;
+package com.ericrobertbrewer.projecteuler;
 
-import com.uberprinny.projecteuler.problems.*;
+import com.ericrobertbrewer.projecteuler.problems.Problem7;
 
 public class Solution {
 

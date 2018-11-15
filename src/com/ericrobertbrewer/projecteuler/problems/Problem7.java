@@ -1,9 +1,9 @@
-package com.uberprinny.projecteuler.problems;
+package com.ericrobertbrewer.projecteuler.problems;
 
 import java.util.List;
 
-import com.uberprinny.projecteuler.SolutionInterface;
-import com.uberprinny.projecteuler.Utility;
+import com.ericrobertbrewer.projecteuler.SolutionInterface;
+import com.ericrobertbrewer.projecteuler.Utility;
 
 /**
  * 10001st prime

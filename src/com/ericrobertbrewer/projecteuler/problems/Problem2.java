@@ -1,4 +1,4 @@
-package com.uberprinny.projecteuler.problems;
+package com.ericrobertbrewer.projecteuler.problems;
 
 import java.util.ArrayList;
 
