@@ -1,10 +1,9 @@
-package com.ericrobertbrewer.projecteuler.problems;
+package com.ericrobertbrewer.projecteuler.problem;
+
+import com.ericrobertbrewer.projecteuler.Utility;
 
 import java.util.HashMap;
 import java.util.List;
-
-import com.ericrobertbrewer.projecteuler.SolutionInterface;
-import com.ericrobertbrewer.projecteuler.Utility;
 
 /**
  * Smallest multiple
@@ -13,12 +12,11 @@ import com.ericrobertbrewer.projecteuler.Utility;
  * What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
  * @author ebrewer
  */
-public class Problem5 implements SolutionInterface {
+public class Problem5 implements Problem {
 
-	public static final long N = 20;
-	
 	@Override
 	public long getAnswer() {
+		final long N = 20;
 		// initialize list of primes up to N, and map of prime factors from 2 -> N
 		List<Long> primes = Utility.getPrimes(N);
 		HashMap<Long, Integer> factors = new HashMap<>();

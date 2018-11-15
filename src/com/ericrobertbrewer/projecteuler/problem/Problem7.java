@@ -1,9 +1,8 @@
-package com.ericrobertbrewer.projecteuler.problems;
+package com.ericrobertbrewer.projecteuler.problem;
+
+import com.ericrobertbrewer.projecteuler.Utility;
 
 import java.util.List;
-
-import com.ericrobertbrewer.projecteuler.SolutionInterface;
-import com.ericrobertbrewer.projecteuler.Utility;
 
 /**
  * 10001st prime
@@ -12,7 +11,7 @@ import com.ericrobertbrewer.projecteuler.Utility;
  * What is the 10 001st prime number?
  * @author ebrewer
  */
-public class Problem7 implements SolutionInterface {
+public class Problem7 implements Problem {
 
 	@Override
 	public long getAnswer() {

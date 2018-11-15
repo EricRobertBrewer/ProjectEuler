@@ -1,8 +1,9 @@
-package com.ericrobertbrewer.projecteuler.problems;
+package com.ericrobertbrewer.projecteuler.problem;
 
-public final class Problem1 {
+public class Problem1 implements Problem {
 
-	public static void printAnswer() {
+	@Override
+	public long getAnswer() {
 		int sum = 0;
 		/*
 		for (int i = 3; i < 1000; i += 3) {
@@ -17,6 +18,6 @@ public final class Problem1 {
 				sum += i;
 			}
 		}
-		System.out.println(sum);
+		return sum;
 	}
 }

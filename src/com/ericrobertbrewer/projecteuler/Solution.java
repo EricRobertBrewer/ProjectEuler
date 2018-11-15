@@ -1,15 +1,32 @@
 package com.ericrobertbrewer.projecteuler;
 
-import com.ericrobertbrewer.projecteuler.problems.Problem7;
+import com.ericrobertbrewer.projecteuler.problem.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Solution {
 
+    private interface ProblemProvider {
+        Problem getProblem();
+    }
+
+    private static final Map<Integer, ProblemProvider> PROVIDERS = new HashMap<>();
+    static {
+        PROVIDERS.put(1, Problem1::new);
+        PROVIDERS.put(2, Problem2::new);
+        PROVIDERS.put(3, Problem3::new);
+        PROVIDERS.put(4, Problem4::new);
+        PROVIDERS.put(5, Problem5::new);
+        PROVIDERS.put(7, Problem7::new);
+    }
+
 	public static void main(String[] args) {
-//		Problem1.printAnswer();
-//		Problem2.printAnswer();
-//		Problem3.printAnswer();
-//		Problem4.printAnswer();
-//		System.out.println(new Problem5().getAnswer());
-		System.out.println(new Problem7().getAnswer());
+		if (args.length < 1 || args.length > 1) {
+			throw new IllegalArgumentException("Usage: <problem-number>");
+		}
+		final int number = Integer.parseInt(args[0]);
+		final Problem problem = PROVIDERS.get(number).getProblem();
+		System.out.println(problem.getAnswer());
 	}
 }

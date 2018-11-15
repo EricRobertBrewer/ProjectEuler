@@ -1,10 +1,11 @@
-package com.ericrobertbrewer.projecteuler.problems;
+package com.ericrobertbrewer.projecteuler.problem;
 
 import java.util.ArrayList;
 
-public class Problem2 {
+public class Problem2 implements Problem {
 
-	public static void printAnswer() {
+	@Override
+	public long getAnswer() {
 		ArrayList<Integer> fib = new ArrayList<>();
 		fib.add(0);
 		fib.add(1);
@@ -17,6 +18,6 @@ public class Problem2 {
 			fib.add(next);
 			next = fib.get(fib.size()-2) + fib.get(fib.size()-1);
 		}
-		System.out.println(sum);
+		return sum;
 	}
 }

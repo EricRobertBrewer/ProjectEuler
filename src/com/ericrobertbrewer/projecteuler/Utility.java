@@ -11,7 +11,7 @@ public final class Utility {
 	 * @return list of prime numbers from 2...{@code n}
 	 */
 	public static List<Long> getPrimes(final long n) {
-		ArrayList<Long> primes = new ArrayList<>();
+		List<Long> primes = new ArrayList<>();
 		if (n < 2) {
 			return primes;
 		}
@@ -40,7 +40,7 @@ public final class Utility {
 	 * @return list of first {@code n} prime numbers
 	 */
 	public static List<Long> getNPrimes(final int n) {
-		ArrayList<Long> primes = new ArrayList<>();
+		List<Long> primes = new ArrayList<>();
 		if (n < 1) {
 			return primes;
 		}

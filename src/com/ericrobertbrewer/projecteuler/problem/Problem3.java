@@ -1,12 +1,14 @@
-package com.ericrobertbrewer.projecteuler.problems;
+package com.ericrobertbrewer.projecteuler.problem;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Problem3 {
+public class Problem3 implements Problem {
 
-	public static ArrayList<Long> primes = new ArrayList<>();
-	
-	public static void printAnswer() {
+	private static List<Long> primes = new ArrayList<>();
+
+	@Override
+	public long getAnswer() {
 		long n = 600851475143L;
 		primes.add(2L);
 //		primes.add(3L);
@@ -28,7 +30,7 @@ public class Problem3 {
 				}
 			}
 		}
-		System.out.println(factors.get(factors.size()-1));
+		return factors.get(factors.size()-1);
 //		for (long i = n / 2; i > 0; i-=2) {
 //			if (n % i == 0 && isPrime(i)) {
 //				System.out.println(i);
