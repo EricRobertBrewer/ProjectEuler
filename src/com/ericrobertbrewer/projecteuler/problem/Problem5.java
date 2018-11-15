@@ -18,7 +18,7 @@ public class Problem5 implements Problem {
 	public long getAnswer() {
 		final long N = 20;
 		// initialize list of primes up to N, and map of prime factors from 2 -> N
-		List<Long> primes = Utility.getPrimes(N);
+		final long[] primes = Utility.getPrimesBelow(N);
 		HashMap<Long, Integer> factors = new HashMap<>();
 		for (long prime : primes) {
 			factors.put(prime, 0);

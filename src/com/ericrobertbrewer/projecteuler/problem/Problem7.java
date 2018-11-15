@@ -2,8 +2,6 @@ package com.ericrobertbrewer.projecteuler.problem;
 
 import com.ericrobertbrewer.projecteuler.Utility;
 
-import java.util.List;
-
 /**
  * 10001st prime
  * Problem 7
@@ -15,8 +13,8 @@ public class Problem7 implements Problem {
 
 	@Override
 	public long getAnswer() {
-		final int N = 10001;
-		List<Long> primes = Utility.getNPrimes(N);
-		return primes.get(N-1);
+		final int n = 10001;
+		final long[] primes = Utility.getFirstPrimes(n);
+		return primes[n - 1];
 	}
 }
