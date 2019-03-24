@@ -25,10 +25,10 @@ final class Utility {
     }
 
     static int getFactorCount(final long x) {
-	    if (x < 0) {
+	    if (x < 0L) {
 	        throw new IllegalArgumentException("Can't be negative.");
         }
-	    if (x == 0) {
+	    if (x == 0L) {
 	        return 0;
         }
 	    if (Prime.isPrime(x)) {
