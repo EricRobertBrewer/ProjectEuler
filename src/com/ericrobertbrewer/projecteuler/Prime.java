@@ -35,6 +35,10 @@ class Prime {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        if (PRIMES.size() == 0) {
+            PRIMES.add(2L);
+            PRIMES.add(3L);
+        }
     }
 
     private static void savePrimes() {
@@ -86,10 +90,6 @@ class Prime {
             return new ArrayList<>();
         }
         loadPrimesIfNeeded();
-        if (PRIMES.size() == 0) {
-            PRIMES.add(2L);
-            PRIMES.add(3L);
-        }
         if (PRIMES.get(PRIMES.size() - 1) >= x) {
             final int nIndex = Collections.binarySearch(PRIMES, x);
             if (nIndex < 0) {
@@ -131,10 +131,6 @@ class Prime {
             return list;
         }
         loadPrimesIfNeeded();
-        if (PRIMES.size() == 0) {
-            PRIMES.add(2L);
-            PRIMES.add(3L);
-        }
         if (PRIMES.size() < n) {
             for (long p = PRIMES.get(PRIMES.size() - 1) + 2; PRIMES.size() < n; p++) {
                 if (isPrime(p)) {
@@ -149,9 +145,13 @@ class Prime {
                 .collect(Collectors.toList());
     }
 
-    static Map<Long, Integer> getPrimeMultiplicities(long x) {
-        final List<Long> primes = Prime.getPrimesBelow((long) Math.sqrt((double) x));
+    static Map<Long, Integer> getPrimeMultiplicities(final long x) {
         final Map<Long, Integer> primeMultiplicities = new HashMap<>();
+        if (isPrime(x)) {
+            primeMultiplicities.put(x, 1);
+            return primeMultiplicities;
+        }
+        final List<Long> primes = Prime.getPrimesBelow(x / 2);
         long q = x;
         for (long prime : primes) {
             if (q == 1L) {

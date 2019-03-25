@@ -1,10 +1,10 @@
 package com.ericrobertbrewer.projecteuler;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.nio.file.Files;
+import java.util.*;
 import java.util.stream.LongStream;
 
 public class Solution {
@@ -14,11 +14,15 @@ public class Solution {
 			throw new IllegalArgumentException("Usage: <problem-number>");
 		}
 		final int number = Integer.parseInt(args[0]);
-		final long answer = getAnswer(number);
-		System.out.println(answer);
+		try {
+            final long answer = getAnswer(number);
+            System.out.println(answer);
+        } catch (IOException e) {
+		    e.printStackTrace();
+        }
 	}
 
-	private static long getAnswer(int problem) {
+	private static long getAnswer(int problem) throws IOException {
         if (problem == 1) {
             int sum = 0;
             for (int i = 1; i < 1000; i++) {
@@ -462,6 +466,93 @@ public class Solution {
                 }
             }
             return maxes[0][0];
+
+        } else if (problem == 19) {
+            int day = 1; // Monday, where Sunday == 0
+            int year = 1900;
+            final int WEEK_DAYS = 7;
+            final int[] MONTH_DAYS = {31, 28, 31, 30, 31, 30, 31, 31, 30 ,31, 30, 31};
+            final int[] MONTH_DAYS_LEAP = {31, 29, 31, 30, 31, 30, 31, 31, 30 ,31, 30, 31};
+            // Move to 1 Jan, 1901.
+            for (int month = 0; month < 12; month++) {
+                // The year 1900 is NOT a leap year.
+                day = (day + MONTH_DAYS[month]) % WEEK_DAYS;
+            }
+            year++;
+            // Count until 31 Dec, 2000.
+            long firstOfMonthSundays = 0L;
+            while (year < 2001) {
+                for (int month = 0; month < 12; month++) {
+                    if (day == 0) {
+                        firstOfMonthSundays++;
+                    }
+                    if (year % 4 == 0) {
+                        day = (day + MONTH_DAYS_LEAP[month]) % WEEK_DAYS;
+                    } else {
+                        day = (day + MONTH_DAYS[month]) % WEEK_DAYS;
+                    }
+                }
+                year++;
+            }
+            return firstOfMonthSundays;
+
+        } else if (problem == 20) {
+            BigInteger product = BigInteger.ONE;
+            for (int i = 1; i <= 100; i++) {
+                product = product.multiply(new BigInteger(String.valueOf(i)));
+            }
+            long sum = 0L;
+            final String productString = product.toString();
+            for (int i = 0; i < productString.length(); i++) {
+                sum += Long.parseLong(productString.substring(i, i + 1));
+            }
+            return sum;
+
+        } else if (problem == 21) {
+            // Calculate all d(x) for x <= 10000.
+            final Map<Long, Long> d = new HashMap<>();
+            for (long x = 2L; x <= 10000L; x++) {
+                final Set<Long> factors = Utility.getFactors(x);
+                final long sum = factors.stream().mapToLong(v -> v).sum();
+                d.put(x, sum - x); // Subtract x to get sum of PROPER divisors, i.e., less than x.
+            }
+            // Find all amicable pairs.
+            final Map<Long, Long> amicable = new HashMap<>();
+            for (long key : d.keySet()) {
+                final long value = d.get(key);
+                if (key != value && d.containsKey(value) && d.get(value) == key) {
+                    amicable.put(key, value);
+                    amicable.put(value, key);
+                }
+            }
+            // Return sum.
+            return amicable.keySet().stream().mapToLong(v -> v).sum();
+
+        } else if (problem == 22) {
+            final File namesFile = new File("input", "p022_names.txt");
+            final List<String> nameStringLines = Files.readAllLines(namesFile.toPath());
+            final List<String> names = new ArrayList<>();
+            for (String nameString : nameStringLines) {
+                if (nameString.length() == 0) {
+                    continue;
+                }
+                final String[] namesSplit = nameString.split(",");
+                for (String name : namesSplit) {
+                    names.add(name.replaceAll("\"", ""));
+                }
+            }
+            Collections.sort(names);
+            long sum = 0L;
+            for (int i = 0; i < names.size(); i++) {
+                final String name = names.get(i);
+                long value = 0L;
+                for (int j = 0; j < name.length(); j++) {
+                    final char c = name.charAt(j);
+                    value += (long) (c - 'A' + 1);
+                }
+                sum += (i + 1) * value;
+            }
+            return sum;
             
         }
         throw new IllegalArgumentException("No solution provided for problem number `" + problem + "`.");

@@ -42,6 +42,67 @@ final class Utility {
 		return count;
     }
 
+    static Set<Long> getFactors(final long x) {
+		final Set<Long> factors = new HashSet<>();
+		final Map<Long, Integer> primeMultiplicities = Prime.getPrimeMultiplicities(x);
+		final long[] primes = new long[primeMultiplicities.keySet().size()];
+		final int[] multiplicities = new int[primes.length];
+		int index = 0;
+		for (long prime : primeMultiplicities.keySet()) {
+			primes[index] = prime;
+			multiplicities[index] = primeMultiplicities.get(prime);
+			index++;
+		}
+		final List<int[]> permutations = getPermutations(multiplicities);
+		for (int[] permutation : permutations) {
+			long product = 1L;
+			for (int i = 0; i < permutation.length; i++) {
+				product *= pow(primes[i], permutation[i]);
+			}
+			factors.add(product);
+		}
+		return factors;
+	}
+
+	private static List<int[]> getPermutations(final int[] counts) {
+		return getPermutations(counts, 0);
+	}
+
+	private static List<int[]> getPermutations(final int[] counts, int index) {
+		final List<int[]> permutations = new LinkedList<>();
+		// The base case is reached when there are no tail permutations.
+		if (index == counts.length - 1) {
+			for (int i = 0; i <= counts[index]; i++) {
+				final int[] permutation = new int[counts.length];
+				permutation[index] = i;
+				permutations.add(permutation);
+			}
+			return permutations;
+		}
+		// Augment tail permutations.
+		final List<int[]> tailPermutations = getPermutations(counts, index + 1);
+		for (int i = 0; i <= counts[index]; i++) {
+			for (int[] tailPermutation : tailPermutations) {
+				final int[] permutation = new int[counts.length];
+				permutation[index] = i;
+				System.arraycopy(tailPermutation, index + 1, permutation, index + 1, counts.length - index - 1);
+				permutations.add(permutation);
+			}
+		}
+		return permutations;
+	}
+
+	static long pow(final long x, final int exp) {
+		if (exp < 0L) {
+			throw new IllegalArgumentException("Can't be negative.");
+		}
+		long product = 1L;
+		for (int i = 0; i < exp; i++) {
+			product *= x;
+		}
+		return product;
+	}
+
 	private Utility() {
 	}
 }
