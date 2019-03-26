@@ -513,8 +513,8 @@ public class Solution {
             final Map<Long, Long> d = new HashMap<>();
             for (long x = 2L; x <= 10000L; x++) {
                 final Set<Long> factors = Utility.getFactors(x);
-                final long sum = factors.stream().mapToLong(v -> v).sum();
-                d.put(x, sum - x); // Subtract x to get sum of PROPER divisors, i.e., less than x.
+                final long properSum = factors.stream().mapToLong(v -> v).sum() - x;
+                d.put(x, properSum);
             }
             // Find all amicable pairs.
             final Map<Long, Long> amicable = new HashMap<>();
@@ -553,7 +553,61 @@ public class Solution {
                 sum += (i + 1) * value;
             }
             return sum;
-            
+
+        } else if (problem == 23) {
+            final Set<Long> abundants = new HashSet<>();
+            for (long x = 12L; x <= 28123L; x++) {
+                final Set<Long> factors = Utility.getFactors(x);
+                final long properSum = factors.stream().mapToLong(v -> v).sum() - x;
+                if (properSum > x) {
+                    abundants.add(x);
+                }
+            }
+            final Set<Long> sumsOfTwoAbundant = new HashSet<>();
+            for (long abundant : abundants) {
+                for (long otherAbundant : abundants) {
+                    sumsOfTwoAbundant.add(abundant + otherAbundant);
+                }
+            }
+            long sum = 0L;
+            for (long x = 1L; x <= 28123L; x++) {
+                if (!sumsOfTwoAbundant.contains(x)) {
+                    sum += x;
+                }
+            }
+            return sum;
+        } else if (problem == 24) {
+            final long target = 1000000L;
+            long permutationCount = 10L * 9L * 8L * 7L * 6L * 5L * 4L * 3L * 2L;
+            final List<Long> digits = new LinkedList<>();
+            for (long i = 0L; i < 10L; i++) {
+                digits.add(i);
+            }
+            long result = 0L;
+            long total = 0L;
+            for (long i = 10L; i > 0L; i--) {
+                final long bucketSize = permutationCount / i;
+                final long index = (target - 1 - total) / bucketSize;
+                final long digit = digits.get((int) index);
+                result = result * 10 + digit;
+                digits.remove(digit);
+                total += index * bucketSize;
+                permutationCount /= i;
+            }
+            return result;
+
+        } else if (problem == 25) {
+            BigInteger nMinus2 = BigInteger.ONE;
+            BigInteger nMinus1 = BigInteger.ONE;
+            long index = 3L;
+            BigInteger n = nMinus2.add(nMinus1);
+            while (n.toString().length() < 1000) {
+                index++;
+                nMinus2 = nMinus1;
+                nMinus1 = n;
+                n = nMinus2.add(nMinus1);
+            }
+            return index;
         }
         throw new IllegalArgumentException("No solution provided for problem number `" + problem + "`.");
     }
