@@ -608,6 +608,32 @@ public class Solution {
                 n = nMinus2.add(nMinus1);
             }
             return index;
+
+        } else if (problem == 26) {
+            long largestD = 0L;
+            int largestCycle = 0;
+            for (long d = 1L; d < 1000L; d++) {
+                final Set<Long> remainders = new HashSet<>();
+                int cycle = 0;
+                long dividend = 1L;
+                while (dividend != 0) {
+                    while (dividend < d) {
+                        dividend *= 10L;
+                        cycle++;
+                    }
+                    final long remainder = dividend % d;
+                    if (remainders.contains(remainder)) {
+                        if (cycle > largestCycle) {
+                            largestD = d;
+                            largestCycle = cycle;
+                        }
+                        break;
+                    }
+                    remainders.add(remainder);
+                    dividend = remainder;
+                }
+            }
+            return largestD;
         }
         throw new IllegalArgumentException("No solution provided for problem number `" + problem + "`.");
     }
