@@ -634,6 +634,113 @@ public class Solution {
                 }
             }
             return largestD;
+
+        } else if (problem == 27) {
+            long maxN = 0L;
+            long maxA = 0L;
+            long maxB = 0L;
+            final List<Long> primes = Prime.getPrimesBelow(1000L);
+            for (int bi = 1; bi < primes.size(); bi++) {
+                final long b = primes.get(bi);
+                for (long a = 0L; a < 1000L; a++) {
+                    long n = 0L;
+                    while (Prime.isPrime(n * n + a * n + b)) {
+                        n++;
+                    }
+                    if (n > maxN) {
+                        maxN = n;
+                        maxA = a;
+                        maxB = b;
+                    }
+                    n = 0L;
+                    while (Prime.isPrime(n * n + a * n - b)) {
+                        n++;
+                    }
+                    if (n > maxN) {
+                        maxN = n;
+                        maxA = a;
+                        maxB = -b;
+                    }
+                    n = 0L;
+                    while (Prime.isPrime(n * n - a * n + b)) {
+                        n++;
+                    }
+                    if (n > maxN) {
+                        maxN = n;
+                        maxA = -a;
+                        maxB = b;
+                    }
+                    n = 0L;
+                    while (Prime.isPrime(n * n - a * n - b)) {
+                        n++;
+                    }
+                    if (n > maxN) {
+                        maxN = n;
+                        maxA = -a;
+                        maxB = -b;
+                    }
+                }
+            }
+            System.out.println("n=" + maxN + ": a=" + maxA + "; b=" + maxB);
+            return maxA * maxB;
+
+        } else if (problem == 28) {
+            final long n = 1001L;
+            return 2L * LongStream.range(1L, (n - 1L) / 2L + 1L)
+                    .map(i -> 2L * (2L * i + 1L) * (2L * i + 1L) - 6L * i)
+                    .sum() + 1L;
+
+        } else if (problem == 29) {
+            final Map<Long, Set<Integer>> baseToPowers = new HashMap<>();
+            for (long a = 2L; a <= 100L; a++) {
+                final long base = Utility.getPowerBase(a);
+                long n = a;
+                int power = 0;
+                while (n != 1) {
+                    n /= base;
+                    power++;
+                }
+                for (int b = 2; b <= 100; b++) {
+                    if (!baseToPowers.containsKey(base)) {
+                        baseToPowers.put(base, new HashSet<>());
+                    }
+                    baseToPowers.get(base).add(power * b);
+                }
+            }
+            long count = 0L;
+            for (long a : baseToPowers.keySet()) {
+                count += baseToPowers.get(a).size();
+            }
+            return count;
+
+        } else if (problem == 30) {
+            final List<Long> numbers = new ArrayList<>();
+            for (long x = 2L; x < 400000L; x++) {
+                long sum = 0L;
+                long n = x;
+                while (n > 0L) {
+                    sum += Utility.pow(n % 10L, 5);
+                    n /= 10L;
+                }
+                if (sum == x) {
+                    numbers.add(x);
+                }
+            }
+            return numbers.stream().mapToLong(v -> v).sum();
+
+        } else if (problem == 48) {
+            BigInteger sum = BigInteger.ZERO;
+            for (long i = 1L; i <= 1000L; i++) {
+                BigInteger product = BigInteger.ONE;
+                final BigInteger base = new BigInteger(String.valueOf(i));
+                for (long p = 1L; p <= i; p++) {
+                    product = product.multiply(base);
+                }
+                sum = sum.add(product);
+            }
+            final String sumString = sum.toString();
+            return Long.parseLong(sumString.substring(sumString.length() - 10));
+            
         }
         throw new IllegalArgumentException("No solution provided for problem number `" + problem + "`.");
     }

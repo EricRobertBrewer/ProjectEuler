@@ -103,6 +103,23 @@ final class Utility {
 		return product;
 	}
 
+	static long getPowerBase(final long x) {
+		final Map<Long, Integer> primeMultiplicities = Prime.getPrimeMultiplicities(x);
+		if (areAllIdentical(new ArrayList<>(primeMultiplicities.values()))) {
+			return primeMultiplicities.keySet().stream().reduce(1L, (p, c) -> p * c);
+		}
+		return x;
+	}
+
+	private static boolean areAllIdentical(List<Integer> a) {
+		for (int i = 1; i < a.size(); i++) {
+			if (!a.get(i).equals(a.get(0))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	private Utility() {
 	}
 }

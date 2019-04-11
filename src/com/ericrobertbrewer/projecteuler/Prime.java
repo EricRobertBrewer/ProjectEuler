@@ -67,6 +67,9 @@ class Prime {
     }
 
     static boolean isPrime(final long x) {
+        if (x < 0L) {
+            return isPrime(-x);
+        }
         loadPrimesIfNeeded();
         final long root = (long) Math.sqrt(x);
         for (long prime : PRIMES) {
