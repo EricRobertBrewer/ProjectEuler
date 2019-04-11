@@ -88,7 +88,6 @@ public class Solution {
             for (long prime : primes) {
                 factors.put(prime, 0);
             }
-
             // Count prime factors of each number from 2 -> N
             for (long i = N; i >= N/2; i--) {
                 long product = i; // Product of some primes; continually divide it (if divisible) by primes found in list of primes
@@ -457,9 +456,7 @@ public class Solution {
             }
             // Calculate.
             final long[][] maxes = new long[triangle.length][triangle.length];
-            for (int j = 0; j < maxes.length; j++) {
-                maxes[maxes.length - 1][j] = triangle[maxes.length - 1][j];
-            }
+            System.arraycopy(triangle[maxes.length - 1], 0, maxes[maxes.length - 1], 0, maxes.length);
             for (int i = maxes.length - 2; i >= 0; i--) {
                 for (int j = 0; j <= i; j++) {
                     maxes[i][j] = triangle[i][j] + Math.max(maxes[i + 1][j], maxes[i + 1][j + 1]);
@@ -576,6 +573,7 @@ public class Solution {
                 }
             }
             return sum;
+
         } else if (problem == 24) {
             final long target = 1000000L;
             long permutationCount = 10L * 9L * 8L * 7L * 6L * 5L * 4L * 3L * 2L;
@@ -728,6 +726,156 @@ public class Solution {
             }
             return numbers.stream().mapToLong(v -> v).sum();
 
+        } else if (problem == 31) {
+            final long[] coins = {1L, 2L, 5L, 10L, 20L, 50L, 100L, 200L};
+            return Utility.getSumPermutationCount(coins, 200L);
+
+        } else if (problem == 32) {
+            final Set<Integer> products = new HashSet<>();
+            final List<int[]> indexPermutations = Utility.getIndexPermutations(9);
+            // ab * cde = fghi
+            for (int[] p : indexPermutations) {
+                final int multiplicand = (p[0] + 1) * 10 + p[1] + 1;
+                final int multiplier = (p[2] + 1) * 100 + (p[3] + 1) * 10 + p[4] + 1;
+                final int product = (p[5] + 1) * 1000 + (p[6] + 1) * 100 + (p[7] + 1) * 10 + p[8] + 1;
+                if (multiplicand * multiplier == product) {
+                    products.add(product);
+                }
+            }
+            // a * bcde = fghi
+            for (int[] p : indexPermutations) {
+                final int multiplicand = p[0] + 1;
+                final int multiplier = (p[1] + 1) * 1000 + (p[2] + 1) * 100 + (p[3] + 1) * 10 + p[4] + 1;
+                final int product = (p[5] + 1) * 1000 + (p[6] + 1) * 100 + (p[7] + 1) * 10 + p[8] + 1;
+                if (multiplicand * multiplier == product) {
+                    products.add(product);
+                }
+            }
+            return products.stream().mapToLong(v -> v).sum();
+
+        } else if (problem == 33) {
+            final List<Long> ns = new ArrayList<>();
+            final List<Long> ds = new ArrayList<>();
+            for (long d = 12L; d <= 99; d++) {
+                if (d % 10L == 0L) {
+                    continue;
+                }
+                for (long n = 11L; n < d; n++) {
+                    if (n % 10L == 0L) {
+                        continue;
+                    }
+                    // xc / xc
+                    if (n % 10L == d % 10L) {
+                        if (n / 10L * d == d / 10L * n) {
+                            ns.add(n);
+                            ds.add(d);
+                        }
+                    }
+                    // xc / cx
+                    if (n % 10L == d / 10L) {
+                        if (n / 10L * d == d % 10L * n) {
+                            ns.add(n);
+                            ds.add(d);
+                        }
+                    }
+                    // cx / xc
+                    if (n / 10L == d % 10L) {
+                        if (n % 10L * d == d / 10L * n) {
+                            ns.add(n);
+                            ds.add(d);
+                        }
+                    }
+                    // cx / cx
+                    if (n / 10L == d / 10L) {
+                        if (n % 10L * d == d % 10L * n) {
+                            ns.add(n);
+                            ds.add(d);
+                        }
+                    }
+                }
+            }
+            long n = 1L;
+            long d = 1L;
+            for (int i = 0; i < ns.size(); i++) {
+                n *= ns.get(i);
+                d *= ds.get(i);
+            }
+            return d / Utility.gcm(n, d);
+
+        } else if (problem == 34) {
+            final List<Long> numbers = new ArrayList<>();
+            for (long n = 3L; n < 100000L; n++) {
+                long sum = 0L;
+                long x = n;
+                while (x > 0) {
+                    sum += Utility.factorial(x % 10L);
+                    x /= 10L;
+                }
+                if (sum == n) {
+                    numbers.add(n);
+                }
+            }
+            return numbers.stream().mapToLong(v -> v).sum();
+
+        } else if (problem == 35) {
+            long count = 0L;
+            final List<Long> primes = Prime.getPrimesBelow(1000000L);
+            for (long prime : primes) {
+                final long[] digits = Utility.getDigits(prime);
+                boolean isCircular = true;
+                for (int start = 1; start < digits.length && isCircular; start++) {
+                    long x = 0L;
+                    for (int i = 0; i < digits.length; i++) {
+                        x *= 10L;
+                        x += digits[(start + i) % digits.length];
+                    }
+                    if (!Prime.isPrime(x)) {
+                        isCircular = false;
+                    }
+                }
+                if (isCircular) {
+                    count++;
+                }
+            }
+            return count;
+
+        } else if (problem == 36) {
+            long sum = 0L;
+            for (long x = 1L; x < 1000000L; x++) {
+                final long[] digits10 = Utility.getDigits(x, 10L);
+                if (!Utility.isPalindrome(digits10)) {
+                    continue;
+                }
+                final long[] digits2 = Utility.getDigits(x, 2L);
+                if (!Utility.isPalindrome(digits2)) {
+                    continue;
+                }
+                sum += x;
+            }
+            return sum;
+
+        } else if (problem == 37) {
+            long sum = 0L;
+            final List<Long> primes = Prime.getPrimesBelow(1000000L);
+            for (long prime : primes) {
+                if (prime < 10) {
+                    continue;
+                }
+                boolean isTruncatable = true;
+                long tens = 10L;
+                while (tens < prime) {
+                    if (!Prime.isPrime(prime / tens) || !Prime.isPrime(prime % tens)) {
+                        isTruncatable = false;
+                        break;
+                    }
+                    tens *= 10L;
+                }
+                if (isTruncatable) {
+                    sum += prime;
+                }
+            }
+            return sum;
+
         } else if (problem == 48) {
             BigInteger sum = BigInteger.ZERO;
             for (long i = 1L; i <= 1000L; i++) {
@@ -740,7 +888,7 @@ public class Solution {
             }
             final String sumString = sum.toString();
             return Long.parseLong(sumString.substring(sumString.length() - 10));
-            
+
         }
         throw new IllegalArgumentException("No solution provided for problem number `" + problem + "`.");
     }

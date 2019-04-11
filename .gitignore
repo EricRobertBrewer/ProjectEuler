@@ -1,5 +1,6 @@
 bin/
 .settings
+primes.txt
 
 # START Java.gitignore
 # Compiled class file

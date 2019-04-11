@@ -17,8 +17,13 @@ class Prime {
             return;
         }
         final File file = new File(PRIMES_FILE_NAME);
-        if (!file.exists()) {
-            return;
+        try {
+            if (!file.exists() && !file.createNewFile()) {
+                System.err.println("Unable to create `" + file.getName() + "`.");
+                return;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         if (!file.canRead() && !file.setReadable(true)) {
             System.err.println("Unable to read `" + file.getName() + "`.");
@@ -69,6 +74,9 @@ class Prime {
     static boolean isPrime(final long x) {
         if (x < 0L) {
             return isPrime(-x);
+        }
+        if (x == 1L) {
+            return false;
         }
         loadPrimesIfNeeded();
         final long root = (long) Math.sqrt(x);
